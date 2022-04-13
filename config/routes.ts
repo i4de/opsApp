@@ -29,12 +29,13 @@
     redirect: '/welcome',
   },
   {
-    component: './404',
-  },
-  {
     name: '节点管理',
     icon: 'table',
     path: '/nodes',
     component: './nodes',
+  },
+  {
+    component: './404',
   }
+ 
 ];
