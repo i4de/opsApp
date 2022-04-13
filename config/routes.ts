@@ -35,6 +35,18 @@
     component: './nodes',
   },
   {
+    name: '登录界面',
+    icon: 'table',
+    path: '/u/login',
+    component: './user/Login/login',
+  },
+  {
+    name: '下发脚本',
+    icon: 'table',
+    path: '/task/script',
+    component: './scriptTask',
+  },
+  {
     component: './404',
   }
  
