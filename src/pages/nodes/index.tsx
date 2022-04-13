@@ -185,11 +185,7 @@ export default function IndexPage() {
   }, [])
   return (
     <>
-      <div className='header'>
-        <p>节点管理系统</p>
-      </div>
-
-      <div className='content'>
+      <div>
         <Tabs defaultActiveKey="1">
           <TabPane tab="节点操作" key="1">
             <Card style={{ marginBottom: '20px' }}>
@@ -212,37 +208,6 @@ export default function IndexPage() {
               <Card>
                 <Table dataSource={dataSource} columns={columns} key="data" loading={loading} />
               </Card>
-            </div>
-          </TabPane>
-          <TabPane tab="脚本操作" key="2">
-            <div className='json-wrap'>
-              <div className='input-wrap'>
-                <p>请输入JSON</p>
-                <JSONInput
-                  id="a_unique_id_0"
-                  locale={locale}
-                  height="550px"
-                  onChange={(e) => handleJSONChange(e)}
-                />
-                <div className='input-wrap-btn'>
-                  <Button type="primary" onClick={() => handleScript()}> 提交</Button>
-                </div>
-              </div>
-              <div className='arrow'>
-                <ArrowRightOutlined />
-              </div>
-              <div className='result-wrap'>
-                <p>结果展示</p>
-                <JSONInput
-                  id="a_unique_id_1"
-                  locale={locale}
-                  placeholder={resultData}
-                  height="550px"
-                />
-                <div className='result-wrap-btn'>
-                  <Button type="primary" onClick={() => copyJSON()}>复制</Button>
-                </div>
-              </div>
             </div>
           </TabPane>
         </Tabs>
