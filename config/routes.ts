@@ -1,4 +1,6 @@
-﻿export default [
+﻿
+
+export default [
   {
     path: '/user',
     layout: false,
@@ -35,13 +37,26 @@
     component: './nodes',
   },
   {
-    name: '登录界面',
-    icon: 'table',
-    path: '/u/login',
-    component: './user/Login/login',
+    name: '脚本管理',
+    icon: 'crown',
+    path: '/scripts',
+    routes: [
+      {
+        path: '/scripts/add',
+        name: '添加脚本',
+        icon: 'smile',
+        component: './scripts/add',
+      },
+      {
+        path: '/scripts/list',
+        name: '脚本列表',
+        icon: 'smile',
+        component: './scripts/index',
+      },
+    ],
   },
   {
-    name: '下发脚本',
+    name: '任务管理',
     icon: 'table',
     path: '/task/script',
     component: './scriptTask',
