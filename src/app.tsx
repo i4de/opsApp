@@ -66,7 +66,16 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
       }
     },
-    links: [],
+    links: [
+      <Link to="/swagger">
+      <BookOutlined />
+      <span>Swagger文档</span>
+    </Link>,
+      <Link to="/~docs">
+        <BookOutlined />
+        <span>API接口文档</span>
+      </Link>,
+    ],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,

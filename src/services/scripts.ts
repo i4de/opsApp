@@ -15,6 +15,7 @@ export interface scriptQueryType {
     type?: string;
     pageNum?: number;
     pageSize?: number;
+    scriptId?: string;
 }
 
 export interface scriptDeleteType {
@@ -23,7 +24,7 @@ export interface scriptDeleteType {
 
 // 创建脚本
 export async function createScripts(params: scriptsCreateType) {
-    return request('/v1/m/script', {
+    return request('/v1/m/script/add', {
         method: 'POST',
         data: params,
     });
@@ -38,6 +39,17 @@ export async function queryScripts(params: scriptQueryType) {
         data: params,
     });
 }
+
+
+
+// 创建脚本
+export async function updateScripts(params:any) {
+    return request('/v1/m/script/update', {
+        method: 'POST',
+        data: params,
+    });
+}
+
 
 
 export async function deleteScripts(params: scriptDeleteType) {

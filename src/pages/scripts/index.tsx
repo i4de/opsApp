@@ -6,7 +6,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ScriptListItem, TableListPagination } from './data';
-import { history } from "umi"
+import { history } from 'umi';
 
 const querySciptList = async (params: {
   pageSize: number;
@@ -79,7 +79,7 @@ const ScriptList: React.FC = () => {
       dataIndex: 'type',
       valueEnum: {
         shell: 'shell',
-        powershell:'powershell'
+        powershell: 'powershell',
       },
     },
     {
@@ -88,8 +88,20 @@ const ScriptList: React.FC = () => {
       key: 'option',
       search: false,
       render: (_, record) => [
-        <a>查看</a>,
-        <a>修改</a>,
+        <a
+          onClick={() => {
+            history.push({
+              pathname: '/scripts/detail/' + record.scriptUid,
+            });
+          }}
+        >
+          查看
+        </a>,
+        <a onClick={() => {
+          history.push({
+            pathname: '/scripts/edit/' + record.scriptUid,
+          });
+        }}>修改</a>,
         <a
           onClick={() => {
             handleRemove([record]);
@@ -112,11 +124,15 @@ const ScriptList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => {
-            history.push({
-              pathname: '/scripts/add',
-            })
-          }}>
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              history.push({
+                pathname: '/scripts/add',
+              });
+            }}
+          >
             <PlusOutlined /> 新建
           </Button>,
         ]}
