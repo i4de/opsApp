@@ -1,6 +1,13 @@
-import { observer } from 'mobx-react';
-import { observable, action, computed } from 'mobx';
+
+import { observable, action, computed, toJS } from 'mobx';
 import React from 'react';
+
+
+const TaskStore = observable({
+    step: 0,
+    next: () =>{ TaskStore.step++},
+    pre: () => { TaskStore.step--}
+});
 
 class CreateScriptTaskStore {
   @observable step = 0;
@@ -18,7 +25,8 @@ class CreateScriptTaskStore {
   }
 
   @computed get getStep() {
-      return this.step;
+        let i =toJS(this.step);
+      return i;
   }
 }
 
@@ -27,3 +35,6 @@ export const storesContext = React.createContext({
 });
 
 export const useStores = () => React.useContext(storesContext);
+
+
+export default TaskStore;

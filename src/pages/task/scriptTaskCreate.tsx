@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Card, Result, Button, Descriptions, Divider, Alert, Statistic, Steps } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProForm, {
@@ -14,14 +14,14 @@ import ProCard from '@ant-design/pro-card';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { vmItemType, vmQuery, vmQueryType } from '@/services/vm';
 import ProTable from '@ant-design/pro-table';
-import { useStores } from './store';
-import { observer } from 'mobx-react';
+import TaskStore from './store';
+import { observer, useObserver } from 'mobx-react';
+
 
 const { Step } = Steps;
 
-const TaskAdd: React.FC = observer(() => {
-  const { scriptTaskStore } = useStores();
-  return (
+const TaskAdd: React.FC = () => {
+  return useObserver(() => (
     <ProCard>
       <ProFormText
         width="md"
@@ -47,19 +47,20 @@ const TaskAdd: React.FC = observer(() => {
         placeholder="这个任务是干嘛的"
       />
       <Button
+        type="primary"
         onClick={() => {
-          scriptTaskStore.next();
+          TaskStore.next();
         }}
       >
         下一步
       </Button>
     </ProCard>
-  );
-});
+  ));
+};
 
 const ScriptAdd: React.FC = () => {
   return (
-    <>
+    <Card bordered={false} style={{ marginTop: '20px' }}>
       <ProFormRadio.Group
         options={[
           {
@@ -94,7 +95,23 @@ const ScriptAdd: React.FC = () => {
         ]}
         placeholder="这里填写脚本内容"
       />
-    </>
+      <Button
+        onClick={() => {
+          TaskStore.pre();
+        }}
+      >
+        上一步
+      </Button>
+
+      <Button
+        type="primary"
+        onClick={() => {
+          TaskStore.next();
+        }}
+      >
+        下一步
+      </Button>
+    </Card>
   );
 };
 
@@ -158,50 +175,84 @@ const SelectPeer: React.FC = () => {
     },
   ];
 
-  return (
-    <ProTable<vmItemType>
-      headerTitle="主机节点信息"
-      actionRef={actionRef}
-      rowKey="uuid"
-      search={{
-        labelWidth: 120,
-      }}
-      columns={columns}
-      request={queryVm}
-    ></ProTable>
-  );
+  return useObserver(() => (
+    <Card style={{ marginTop: '20px' }} bordered={false}>
+      <ProTable<vmItemType>
+        headerTitle="主机节点信息"
+        actionRef={actionRef}
+        rowKey="uuid"
+        search={{
+          labelWidth: 120,
+        }}
+        columns={columns}
+        request={queryVm}
+        rowSelection={{
+          onChange: (_, selectedRows) => {
+            //setSelectedRows(selectedRows);
+          },
+        }}
+      ></ProTable>
+      <Button
+        onClick={() => {
+          TaskStore.pre();
+        }}
+      >
+        上一步
+      </Button>
+
+      <Button
+        type="primary"
+        onClick={() => {
+          TaskStore.next();
+        }}
+      >
+        下一步
+      </Button>
+    </Card>
+  ));
 };
 
 const CreateTaskResult: React.FC = () => {
   return (
     <>
       <h1>结果</h1>
+      <Button
+        onClick={() => {
+          TaskStore.pre();
+        }}
+      >
+        上一步
+      </Button>
+
+      <Button
+        onClick={() => {
+          TaskStore.next();
+        }}
+      >
+        下一步
+      </Button>
     </>
   );
 };
 
-const ScriptTaskCreate: React.FC = observer(() => {
-  const {  scriptTaskStore } = useStores();
-  //   const [current, setCurrent] = useState(2);
-  return (
+const ScriptTaskCreate: React.FC = () => {
+  return useObserver(() => (
     <PageContainer>
       <Card>
-        <Steps current={scriptTaskStore.step}>
-          <Step title="填写任务信息" description="This is a description.">
-            <TaskAdd />
-          </Step>
-          <Step title="填写脚本信息" description="This is a description." />
-          <Step title="选择节点" description="This is a description." />
-          <Step title="预览任务" description="This is a description." />
-          <Step title="完成" description="This is a description." />
+        <Steps current={TaskStore.step}>
+          <Step title="填写任务信息" description=""></Step>
+          <Step title="填写脚本信息" description="" />
+          <Step title="选择节点" description="" />
+          <Step title="预览任务" description="" />
+          <Step title="完成" description="" />
         </Steps>
-        <TaskAdd />
-        <Button onClick={ () => {
-            scriptTaskStore.pre();
-        }}>上一步</Button>
+        {TaskStore.step == 0 && <TaskAdd />}
+        {TaskStore.step == 1 && <ScriptAdd />}
+        {TaskStore.step == 2 && <SelectPeer />}
+        {TaskStore.step == 3 && <CreateTaskResult />}
       </Card>
     </PageContainer>
-  );
-});
+  ));
+};
 
 export default ScriptTaskCreate;
