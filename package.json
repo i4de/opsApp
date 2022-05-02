@@ -61,7 +61,7 @@
     "classnames": "^2.3.0",
     "core-js": "^3.22.3",
     "lodash": "^4.17.0",
-    "mobx": "^4.3.1",
+    "mobx": "^6.2.2",
     "mobx-react": "^7.3.0",
     "mobx-react-lite": ">=2.2.0 <3.0.0",
     "moment": "^2.29.0",
