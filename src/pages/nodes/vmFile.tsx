@@ -5,10 +5,15 @@ import { vmItemType, vmQuery, vmQueryType, vmFileList } from '@/services/vm';
 import { PageContainer } from '@ant-design/pro-layout';
 import VmList from './vm';
 import { Card, Table } from 'antd';
+import {
+  FolderTwoTone,
+  HomeTwoTone,
+  FileOutlined 
+} from '@ant-design/icons';
 
 const VmFile: React.FC = (props) => {
   const [peerInfo, setPeerInfo] = useState<vmItemType>({});
-  const [path, setPath] = useState('./');
+  const [path, setPath] = useState('/');
   const [files, setFiles] = useState([]);
 
   const handleChangePath = (reqpath) => {
@@ -27,9 +32,9 @@ const VmFile: React.FC = (props) => {
       valueType: 'textarea',
       render: (_, record) => {
           if(record.type == 'dir') {
-              return <a onClick={() => {handleChangePath(record.path + record.name + '/')}}> {record.name} </a>
+              return  <a onClick={() => {handleChangePath(record.path + record.name + '/')}}> <FolderTwoTone />{record.name} </a>
           }
-          return <span>{record.name}</span>;
+          return <span><FileOutlined /> {record.name}</span>;
       }
     },
     {
@@ -68,7 +73,7 @@ const VmFile: React.FC = (props) => {
   return (
     <PageContainer>
       <Card>
-          <a>{path}</a>
+          <a><HomeTwoTone /></a> <a>{path}</a>
         <Table columns={columns} dataSource={files} pagination={false}></Table>
       </Card>
     </PageContainer>

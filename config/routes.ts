@@ -60,7 +60,7 @@
     ],
   },
   {
-    name: '脚本管理',
+    name: '资源管理',
     icon: 'crown',
     path: '/scripts',
     routes: [
@@ -90,6 +90,18 @@
         hideInMenu: true,
         component: './scripts/edit',
       },
+      {
+        path: '/check/item',
+        name: '巡检项',
+        icon: 'smile',
+        component: './check/checkItem',
+      },
+      {
+        path: '/check/tpl',
+        name: '巡检模版',
+        icon: 'smile',
+        component: './check/checkTpl',
+      },
     ],
   },
   {
@@ -98,16 +110,28 @@
     path: '/task',
     routes: [
       {
-        path: '/add',
+        path: '/task/add',
         name: '添加任务',
         icon: 'smile',
-        component: './scripts/add',
+        component: './task/scriptTaskCreate',
       },
       {
         path: '/task/record',
         name: '任务记录',
         icon: 'smile',
         component: './task/taskRecords',
+      },
+      {
+        path: '/task/preset',
+        name: '预设任务',
+        icon: 'smile',
+        component: './task/taskPreset',
+      },
+      {
+        path: '/task/cron',
+        name: '定时任务',
+        icon: 'smile',
+        component: './task/taskCron',
       },
     ],
   },
