@@ -3,7 +3,13 @@ import React from 'react';
 import { createScripts } from '@/services/scripts';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import { ProForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-design/pro-form';
+import {
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+  ProFormRadio,
+  ProFormDigit,
+} from '@ant-design/pro-form';
 
 const onFinish = async (values: Record<string, any>) => {
   await createScripts(values).then((res) => {
@@ -63,6 +69,9 @@ const ScriptAdd: React.FC = () => {
             label="脚本类型"
             name="type"
           />
+          <ProFormText label="脚本解释器" name="cmd" placeholder="你可以自定义脚本的解释器" />
+
+          <ProFormDigit label="超时时间" name="waitTime" width="sm" />
           <ProFormTextArea
             label="脚本内容"
             name="content"
