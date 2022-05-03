@@ -53,9 +53,37 @@ export interface cronTaskQueryType {
   pageSize?: number;
 }
 
+export interface scriptContentType {
+  path?: string;
+  cmd?: string;
+  env?: Map<string, string>;
+  content: string;
+  execWay?: number;
+  filehash?: string;
+  user?: string;
+  timeout?: 0;
+  args?: [];
+  input?: string;
+}
+
+export interface scriptTaskType {
+  name: string;
+  peers: string[];
+  creater: string;
+  content: scriptContentType;
+}
+
 // 创建脚本
 export async function cronTaskQuery(params: cronTaskQueryType) {
   return request('/v1/m/task/cron/query', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+
+export async function createScriptAsyncTask(params:scriptTaskType) {
+  return request('/script/async', {
     method: 'POST',
     data: params,
   });

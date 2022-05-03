@@ -1,11 +1,23 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { Card, Result, Button, Descriptions, Divider, Alert, Statistic, Steps } from 'antd';
+import {
+  Card,
+  Result,
+  Button,
+  Descriptions,
+  Divider,
+  Alert,
+  Statistic,
+  Steps,
+  message,
+  Table,
+} from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProForm, {
   ProFormRadio,
   ProFormTextArea,
   ProFormDigit,
   ProFormSelect,
+  ProFormInstance,
   ProFormText,
   StepsForm,
 } from '@ant-design/pro-form';
@@ -16,44 +28,59 @@ import { vmItemType, vmQuery, vmQueryType } from '@/services/vm';
 import ProTable from '@ant-design/pro-table';
 import TaskStore from './store';
 import { observer, useObserver } from 'mobx-react';
-
+import Field from '@ant-design/pro-field';
+import { scriptTaskType, createScriptAsyncTask } from '@/services/task';
+import { history } from 'umi';
 
 const { Step } = Steps;
 
 const TaskAdd: React.FC = () => {
   return useObserver(() => (
     <ProCard>
-      <ProFormText
-        width="md"
-        label="任务名称"
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: '请输入任务名称',
+      <ProForm
+        initialValues={TaskStore.task}
+        submitter={{
+          // 配置按钮文本
+          searchConfig: {
+            resetText: '',
+            submitText: '下一步',
           },
-        ]}
-        placeholder="给任务起一个名字"
-      />
-      <ProFormText
-        label="任务描述"
-        name="desc"
-        rules={[
-          {
-            required: true,
-            message: '请输入任务描述',
+          resetButtonProps: {
+            style: {
+              // 隐藏重置按钮
+              display: 'none',
+            },
           },
-        ]}
-        placeholder="这个任务是干嘛的"
-      />
-      <Button
-        type="primary"
-        onClick={() => {
+        }}
+        onFinish={(values) => {
+          TaskStore.task = values;
           TaskStore.next();
         }}
       >
-        下一步
-      </Button>
+        <ProFormText
+          width="md"
+          label="任务名称"
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: '请输入任务名称',
+            },
+          ]}
+          placeholder="给任务起一个名字"
+        />
+        <ProFormText
+          label="任务描述"
+          name="desc"
+          rules={[
+            {
+              required: true,
+              message: '请输入任务描述',
+            },
+          ]}
+          placeholder="这个任务是干嘛的"
+        />
+      </ProForm>
     </ProCard>
   ));
 };
@@ -61,56 +88,82 @@ const TaskAdd: React.FC = () => {
 const ScriptAdd: React.FC = () => {
   return (
     <Card bordered={false} style={{ marginTop: '20px' }}>
-      <ProFormRadio.Group
-        options={[
-          {
-            value: 'shell',
-            label: 'shell',
+      <ProForm
+        initialValues={TaskStore.script}
+        submitter={{
+          // 配置按钮文本
+          searchConfig: {
+            resetText: '',
+            submitText: '下一步',
           },
-          {
-            value: 'powershell',
-            label: 'powershell',
+          resetButtonProps: {
+            style: {
+              // 隐藏重置按钮
+              display: 'none',
+            },
           },
-        ]}
-        rules={[
-          {
-            required: true,
-            message: '请选择脚本类型',
-          },
-        ]}
-        label="脚本类型"
-        name="type"
-      />
-      <ProFormTextArea
-        label="脚本内容"
-        name="content"
-        fieldProps={{
-          autoSize: { minRows: 6, maxRows: 50 },
-        }}
-        rules={[
-          {
-            required: true,
-            message: '请输入脚本内容',
-          },
-        ]}
-        placeholder="这里填写脚本内容"
-      />
-      <Button
-        onClick={() => {
-          TaskStore.pre();
-        }}
-      >
-        上一步
-      </Button>
+          render: (props, doms) => {
+            console.log(props);
 
-      <Button
-        type="primary"
-        onClick={() => {
+            return [
+              <Button
+                onClick={() => {
+                  TaskStore.pre();
+                }}
+              >
+                上一步
+              </Button>,
+              <Button
+                type="primary"
+                onClick={() => {
+                  props.form?.submit?.();
+                }}
+              >
+                下一步
+              </Button>,
+            ];
+          },
+        }}
+        onFinish={(values) => {
+          TaskStore.script = values;
           TaskStore.next();
         }}
       >
-        下一步
-      </Button>
+        <ProFormRadio.Group
+          options={[
+            {
+              value: 'shell',
+              label: 'shell',
+            },
+            {
+              value: 'powershell',
+              label: 'powershell',
+            },
+          ]}
+          rules={[
+            {
+              required: true,
+              message: '请选择脚本类型',
+            },
+          ]}
+          label="脚本类型"
+          name="type"
+        />
+        <ProFormTextArea
+          label="脚本内容"
+          name="content"
+          fieldProps={{
+            autoSize: { minRows: 6, maxRows: 50 },
+          }}
+          rules={[
+            {
+              required: true,
+              message: '请输入脚本内容',
+            },
+          ]}
+          placeholder="这里填写脚本内容"
+        />
+      </ProForm>
     </Card>
   );
 };
@@ -134,6 +187,9 @@ const queryVm = async (params: {
     total: 0,
   };
   await vmQuery(q).then((res) => {
+    if (res.code != 0) {
+      message.error('error:' + res.message);
+    }
     r = {
       data: res?.data?.list,
       success: true,
@@ -144,94 +200,197 @@ const queryVm = async (params: {
   return r;
 };
 
+const columns: ProColumns<vmItemType>[] = [
+  {
+    title: '节点id',
+    dataIndex: 'peerId',
+    valueType: 'textarea',
+  },
+  {
+    title: '名称',
+    dataIndex: 'name',
+    valueType: 'textarea',
+  },
+  {
+    title: 'hostname',
+    dataIndex: 'hostname',
+    valueType: 'textarea',
+  },
+
+  {
+    title: 'osInfo',
+    dataIndex: 'osInfo',
+    search: false,
+  },
+  {
+    title: 'ip',
+    dataIndex: 'publicIp',
+    search: false,
+  },
+];
+
 const SelectPeer: React.FC = () => {
   const actionRef = useRef<ActionType>();
-  const columns: ProColumns<vmItemType>[] = [
-    {
-      title: '节点id',
-      dataIndex: 'peerId',
-      valueType: 'textarea',
-    },
-    {
-      title: '名称',
-      dataIndex: 'name',
-      valueType: 'textarea',
-    },
-    {
-      title: 'hostname',
-      dataIndex: 'hostname',
-      valueType: 'textarea',
-    },
+  const [selectedRowsState, setSelectedRows] = useState<vmItemType[]>([]);
 
-    {
-      title: 'osInfo',
-      dataIndex: 'osInfo',
-      search: false,
-    },
-    {
-      title: 'ip',
-      dataIndex: 'publicIp',
-      search: false,
-    },
-  ];
-
+  let selectPeer: string[] = TaskStore.vmlist.map((item) => item.uuid);
+  console.log('select peer:', selectPeer);
   return useObserver(() => (
     <Card style={{ marginTop: '20px' }} bordered={false}>
-      <ProTable<vmItemType>
-        headerTitle="主机节点信息"
-        actionRef={actionRef}
-        rowKey="uuid"
-        search={{
-          labelWidth: 120,
-        }}
-        columns={columns}
-        request={queryVm}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            //setSelectedRows(selectedRows);
+      <ProForm
+        submitter={{
+          render: (props, doms) => {
+            console.log(props);
+
+            return [
+              <Button
+                onClick={() => {
+                  TaskStore.pre();
+                }}
+              >
+                上一步
+              </Button>,
+              <Button
+                type="primary"
+                onClick={() => {
+                  props.form?.submit?.();
+                }}
+              >
+                下一步
+              </Button>,
+            ];
           },
         }}
-      ></ProTable>
-      <Button
-        onClick={() => {
-          TaskStore.pre();
-        }}
-      >
-        上一步
-      </Button>
-
-      <Button
-        type="primary"
-        onClick={() => {
+        onFinish={(values) => {
+          if (TaskStore.vmlist.length == 0) {
+            message.warn('你没有选择任何主机');
+            return;
+          }
           TaskStore.next();
         }}
       >
-        下一步
-      </Button>
+        <ProTable<vmItemType>
+          headerTitle="主机节点信息"
+          actionRef={actionRef}
+          rowKey="uuid"
+          search={{
+            labelWidth: 120,
+          }}
+          columns={columns}
+          request={queryVm}
+          rowSelection={{
+            defaultSelectedRowKeys: selectPeer,
+            onChange: (_, selectedRows) => {
+              TaskStore.vmlist = selectedRows;
+            },
+          }}
+        ></ProTable>
+      </ProForm>
     </Card>
   ));
 };
 
+const handleCreateScriptTask = async () => {
+  let peers: string[] = TaskStore.vmlist.map((item) => item.peerId);
+  let q: scriptTaskType = {
+    name: TaskStore.task.name,
+    peers: peers,
+    content: TaskStore.script,
+    creater: 'luxingwen',
+  };
+  console.log('haneerr->', q);
+
+  await createScriptAsyncTask(q).then((res) => {
+    console.log('res --> ', res);
+    TaskStore.res = res;
+  });
+};
+
 const CreateTaskResult: React.FC = () => {
   return (
-    <>
-      <h1>结果</h1>
-      <Button
-        onClick={() => {
-          TaskStore.pre();
-        }}
-      >
-        上一步
-      </Button>
+    <Card bordered={false}>
+      <ProForm
+        submitter={{
+          render: (props, doms) => {
+            console.log(props);
 
-      <Button
-        onClick={() => {
-          TaskStore.next();
+            return [
+              <Button
+                onClick={() => {
+                  TaskStore.pre();
+                }}
+              >
+                上一步
+              </Button>,
+              <Button
+                type="primary"
+                onClick={async () => {
+                  await handleCreateScriptTask();
+                  TaskStore.next();
+                }}
+              >
+                立即执行
+              </Button>,
+              <Button
+                type="dashed"
+                onClick={() => {
+                  props.form?.submit?.();
+                }}
+              >
+                另存预设
+              </Button>,
+            ];
+          },
         }}
       >
-        下一步
-      </Button>
-    </>
+        <Descriptions column={1}>
+          <Descriptions.Item label="任务名称">
+            <Field text={TaskStore.task.name} mode="read" />
+          </Descriptions.Item>
+          <Descriptions.Item label="任务描述">
+            <Field text={TaskStore.task.desc} mode="read" />
+          </Descriptions.Item>
+          <Descriptions.Item label="脚本类型">
+            <Field text={TaskStore.script.type} mode="read" />
+          </Descriptions.Item>
+          <Descriptions.Item label="脚本内容">
+            <Field valueType="code" text={TaskStore.script.content} mode="read" />
+          </Descriptions.Item>
+
+          <Descriptions.Item label="已选主机列表">
+            <Table columns={columns} dataSource={TaskStore.vmlist}></Table>
+          </Descriptions.Item>
+        </Descriptions>
+      </ProForm>
+    </Card>
+  );
+};
+
+const ScriptTaskResult: React.FC = () => {
+  return (
+    <Card bordered={false}>
+      <Result
+        status="success"
+        title="你已经成功创建任务!"
+        subTitle="任务id是:."
+        extra={[
+          <Button
+            type="primary"
+            key="console"
+            onClick={() => {
+
+              TaskStore.reset();
+              
+              history.push({
+                pathname: '/task/record',
+              });
+            }}
+          >
+            去查看任务详情
+          </Button>,
+        ]}
+      />
+    </Card>
   );
 };
 
@@ -250,6 +409,7 @@ const ScriptTaskCreate: React.FC = () => {
         {TaskStore.step == 1 && <ScriptAdd />}
         {TaskStore.step == 2 && <SelectPeer />}
         {TaskStore.step == 3 && <CreateTaskResult />}
+        {TaskStore.step == 4 && <ScriptTaskResult />}
       </Card>
     </PageContainer>
   ));
