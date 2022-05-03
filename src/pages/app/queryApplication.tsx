@@ -26,6 +26,7 @@ const QueryApplication: React.FC = () => {
   const valueEnum = {
     0: 'close',
     1: 'open',
+    2: 'close'
   };
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<AppListItem>[] = [

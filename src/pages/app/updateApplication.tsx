@@ -54,7 +54,7 @@ const UpdateApplication: React.FC = () => {
                 appid: appid,
                 name: values['name'],
                 owner: values['owner'],
-                status: values['status'] ? 1 : 0,
+                status: values['status'] ? 1 : 2,
               };
               console.log(params);
               await appUpdate(params).then((res) => {
