@@ -63,7 +63,8 @@ const authInterceptor = (url: string, options: any) => {
  * 配置request请求时的默认参数
  */
 const request = extend({
-  prefix: 'http://127.0.0.1:8199',
+  // prefix: 'http://127.0.0.1:8199',
+  prefix: 'http://82.157.165.187:30004',
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 });
