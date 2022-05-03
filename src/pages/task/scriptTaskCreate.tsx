@@ -175,17 +175,16 @@ const FileAdd: React.FC = () => {
     <>
       <h1>文件下发</h1>
     </>
-  )
-}
+  );
+};
 
-
-const HostCheckAdd: React.FC = ()  => {
+const HostCheckAdd: React.FC = () => {
   return (
     <>
       <h1>巡检</h1>
     </>
-  )
-}
+  );
+};
 
 const queryVm = async (params: {
   pageSize: number;
@@ -317,10 +316,8 @@ const handleCreateScriptTask = async () => {
     content: TaskStore.script,
     creater: 'luxingwen',
   };
-  console.log('haneerr->', q);
 
   await createScriptAsyncTask(q).then((res) => {
-    console.log('res --> ', res);
     TaskStore.res = res;
   });
 };
@@ -426,8 +423,6 @@ const ScriptTaskResult: React.FC = () => {
   );
 };
 
-
-
 const ScriptTaskCreate: React.FC = () => {
   const [contentTitle, setContentTitle] = useState('填写脚本信息');
 
@@ -447,20 +442,20 @@ const ScriptTaskCreate: React.FC = () => {
   };
 
   const ScriptContentDom = (props) => {
-    if(TaskStore.step!=1) {
+    if (TaskStore.step != 1) {
       return <></>;
     }
-    if(TaskStore.type == "script") {
-      return <ScriptAdd/>
+    if (TaskStore.type == 'script') {
+      return <ScriptAdd />;
     }
-    if(TaskStore.type == "file") {
-      return <FileAdd/>
+    if (TaskStore.type == 'file') {
+      return <FileAdd />;
     }
-    if(TaskStore.type == "hostcheck") {
-      return <HostCheckAdd/>
+    if (TaskStore.type == 'hostcheck') {
+      return <HostCheckAdd />;
     }
-    return <></>
-  }
+    return <></>;
+  };
 
   return useObserver(() => (
     <PageContainer>
@@ -491,7 +486,7 @@ const ScriptTaskCreate: React.FC = () => {
           <Step title="完成" description="" />
         </Steps>
         {TaskStore.step == 0 && <TaskAdd />}
-        <ScriptContentDom/>
+        <ScriptContentDom />
         {TaskStore.step == 2 && <SelectPeer />}
         {TaskStore.step == 3 && <CreateTaskResult />}
         {TaskStore.step == 4 && <ScriptTaskResult />}

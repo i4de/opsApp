@@ -12,6 +12,7 @@ const TaskStore = observable({
     script: {},
     vmlist: [],
     res: {},
+    type: '',
     reset:() => {
       TaskStore.step = 0;
       TaskStore.task = {};
@@ -20,8 +21,6 @@ const TaskStore = observable({
       TaskStore.res = {};
     }
 });
-
-
 
 
 export default TaskStore;
