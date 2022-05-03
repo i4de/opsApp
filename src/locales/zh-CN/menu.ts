@@ -67,5 +67,6 @@ export default {
   'menu.nodes.node-vm-file':'主机节点文件',
   'menu.app':'App管理',
   'menu.app.add':'添加App',
+  'menu.app.updateApp':'更新App',
   'menu.app.query':'查询App',
 };
