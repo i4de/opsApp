@@ -65,4 +65,7 @@ export default {
   'menu.nodes.node-info':'节点信息',
   'menu.nodes.node-vm':'主机节点',
   'menu.nodes.node-vm-file':'主机节点文件',
+  'menu.app':'App管理',
+  'menu.app.add':'添加App',
+  'menu.app.query':'查询App',
 };
