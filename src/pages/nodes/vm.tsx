@@ -40,47 +40,55 @@ const VmList: React.FC = () => {
       title: 'uuid',
       dataIndex: 'uuid',
       tip: '可以自定义',
+      key: 'uuid',
     },
     {
       title: '节点id',
       dataIndex: 'peerId',
       valueType: 'textarea',
+      key: 'peerId',
     },
     {
       title: '名称',
       dataIndex: 'name',
       valueType: 'textarea',
+      key: 'name',
     },
     {
       title: 'hostname',
       dataIndex: 'hostname',
       valueType: 'textarea',
+      key: 'hostname',
     },
     {
       title: 'osType',
       dataIndex: 'osType',
+      key: 'osType',
     },
     {
       title: 'osInfo',
       dataIndex: 'osInfo',
       search: false,
+      key: 'osInfo',
     },
     {
       title: 'address',
       dataIndex: 'address',
       search: false,
+      key: 'address',
     },
     {
       title: 'ip',
       dataIndex: 'publicIp',
       search: false,
+      key: 'ip',
     },
     {
       title: '操作',
       valueType: 'option',
       key: 'option',
       search: false,
-      render: (_, record) => [<a onClick={() => {
+      render: (_, record) => [<a key={record.peerId} onClick={() => {
         history.push({
           pathname: '/nodes/vm/file/' + record.peerId,
         });

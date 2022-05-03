@@ -40,19 +40,23 @@ const TaskRecords: React.FC = () => {
       title: '任务id',
       dataIndex: 'taskId',
       tip: '任务唯一id',
+      key: 'taskId',
     },
     {
       title: '名称',
       dataIndex: 'name',
       valueType: 'textarea',
+      key: 'name',
     },
     {
       title: '类型',
       dataIndex: 'type',
+      key: 'type',
     },
     {
       title: '状态',
       dataIndex: 'status',
+      key: 'status',
       render: (_, record) => {
         if (record.status == 'doing') {
           return <p>运行中</p>;
@@ -71,6 +75,7 @@ const TaskRecords: React.FC = () => {
       dataIndex: 'content',
       valueType: 'textarea',
       search: false,
+      key: 'content',
     },
 
     {
@@ -78,7 +83,7 @@ const TaskRecords: React.FC = () => {
       valueType: 'option',
       key: 'option',
       search: false,
-      render: (_, record) => [<a>查看</a>],
+      render: (_, record) => [<a key={'info-' + record.taskId}>查看</a>],
     },
   ];
 

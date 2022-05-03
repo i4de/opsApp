@@ -62,17 +62,20 @@ const ScriptList: React.FC = () => {
       dataIndex: 'scriptUid',
       tip: '脚本uid唯一的id',
       search: false,
+      key: 'scriptUid',
     },
     {
       title: '名称',
       dataIndex: 'name',
       valueType: 'textarea',
+      key: 'name',
     },
     {
       title: '描述',
       dataIndex: 'desc',
       valueType: 'textarea',
       search: false,
+      key: 'desc',
     },
     {
       title: '类型',
@@ -81,6 +84,7 @@ const ScriptList: React.FC = () => {
         shell: 'shell',
         powershell: 'powershell',
       },
+      key: 'type',
     },
     {
       title: '操作',
@@ -89,6 +93,7 @@ const ScriptList: React.FC = () => {
       search: false,
       render: (_, record) => [
         <a
+          key={'info-' + record.scriptUid}
           onClick={() => {
             history.push({
               pathname: '/scripts/detail/' + record.scriptUid,
@@ -97,12 +102,18 @@ const ScriptList: React.FC = () => {
         >
           查看
         </a>,
-        <a onClick={() => {
-          history.push({
-            pathname: '/scripts/edit/' + record.scriptUid,
-          });
-        }}>修改</a>,
         <a
+          key={'edit-' + record.scriptUid}
+          onClick={() => {
+            history.push({
+              pathname: '/scripts/edit/' + record.scriptUid,
+            });
+          }}
+        >
+          修改
+        </a>,
+        <a
+          key={'delete-' + record.scriptUid}
           onClick={() => {
             handleRemove([record]);
             actionRef.current?.reloadAndRest?.();
