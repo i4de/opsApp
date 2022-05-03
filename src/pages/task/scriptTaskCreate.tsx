@@ -4,7 +4,7 @@ import {
   Result,
   Button,
   Descriptions,
-  Divider,
+  Tabs,
   Alert,
   Statistic,
   Steps,
@@ -31,8 +31,10 @@ import { observer, useObserver } from 'mobx-react';
 import Field from '@ant-design/pro-field';
 import { scriptTaskType, createScriptAsyncTask } from '@/services/task';
 import { history } from 'umi';
+import { taskPresetItemType, taskPresetCreate } from '@/services/taskPreset';
 
 const { Step } = Steps;
+const { TabPane } = Tabs;
 
 const TaskAdd: React.FC = () => {
   return useObserver(() => (
@@ -167,6 +169,23 @@ const ScriptAdd: React.FC = () => {
     </Card>
   );
 };
+
+const FileAdd: React.FC = () => {
+  return (
+    <>
+      <h1>文件下发</h1>
+    </>
+  )
+}
+
+
+const HostCheckAdd: React.FC = ()  => {
+  return (
+    <>
+      <h1>巡检</h1>
+    </>
+  )
+}
 
 const queryVm = async (params: {
   pageSize: number;
@@ -306,6 +325,19 @@ const handleCreateScriptTask = async () => {
   });
 };
 
+const handleCreateTaskPreset = async () => {
+  let peers: string[] = TaskStore.vmlist.map((item) => item.peerId);
+  let q: taskPresetItemType = {
+    type: 'script',
+    name: TaskStore.task.name,
+    creater: 'luxingwen',
+    content: JSON.stringify(TaskStore.script),
+  };
+  await taskPresetCreate(q).then((res) => {
+    TaskStore.res = res;
+  });
+};
+
 const CreateTaskResult: React.FC = () => {
   return (
     <Card bordered={false}>
@@ -333,8 +365,9 @@ const CreateTaskResult: React.FC = () => {
               </Button>,
               <Button
                 type="dashed"
-                onClick={() => {
-                  props.form?.submit?.();
+                onClick={async () => {
+                  await handleCreateTaskPreset();
+                  TaskStore.next();
                 }}
               >
                 另存预设
@@ -378,9 +411,8 @@ const ScriptTaskResult: React.FC = () => {
             type="primary"
             key="console"
             onClick={() => {
-
               TaskStore.reset();
-              
+
               history.push({
                 pathname: '/task/record',
               });
@@ -394,19 +426,72 @@ const ScriptTaskResult: React.FC = () => {
   );
 };
 
+
+
 const ScriptTaskCreate: React.FC = () => {
+  const [contentTitle, setContentTitle] = useState('填写脚本信息');
+
+  const tabchange = (key) => {
+    if (key == 'script') {
+      setContentTitle('填写脚本信息');
+      TaskStore.type = 'script';
+    }
+    if (key == 'file') {
+      setContentTitle('填写文件信息');
+      TaskStore.type = 'file';
+    }
+    if (key == 'hostcheck') {
+      setContentTitle('填写巡检信息');
+      TaskStore.type = 'hostcheck';
+    }
+  };
+
+  const ScriptContentDom = (props) => {
+    if(TaskStore.step!=1) {
+      return <></>;
+    }
+    if(TaskStore.type == "script") {
+      return <ScriptAdd/>
+    }
+    if(TaskStore.type == "file") {
+      return <FileAdd/>
+    }
+    if(TaskStore.type == "hostcheck") {
+      return <HostCheckAdd/>
+    }
+    return <></>
+  }
+
   return useObserver(() => (
     <PageContainer>
       <Card>
+        <Tabs defaultActiveKey="script" onChange={tabchange}>
+          <TabPane
+            tab="脚本任务"
+            disabled={TaskStore.type != 'script' && TaskStore.step > 0}
+            key="script"
+          ></TabPane>
+          <TabPane
+            tab="文件下发"
+            disabled={TaskStore.type != 'file' && TaskStore.step > 0}
+            key="file"
+          ></TabPane>
+          <TabPane
+            tab="巡检任务"
+            disabled={TaskStore.type != 'hostcheck' && TaskStore.step > 0}
+            key="hostcheck"
+          ></TabPane>
+        </Tabs>
+
         <Steps current={TaskStore.step}>
           <Step title="填写任务信息" description=""></Step>
-          <Step title="填写脚本信息" description="" />
+          <Step title={contentTitle} description="" />
           <Step title="选择节点" description="" />
           <Step title="预览任务" description="" />
           <Step title="完成" description="" />
         </Steps>
         {TaskStore.step == 0 && <TaskAdd />}
-        {TaskStore.step == 1 && <ScriptAdd />}
+        <ScriptContentDom/>
         {TaskStore.step == 2 && <SelectPeer />}
         {TaskStore.step == 3 && <CreateTaskResult />}
         {TaskStore.step == 4 && <ScriptTaskResult />}
