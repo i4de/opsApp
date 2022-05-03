@@ -136,6 +136,33 @@
     ],
   },
   {
+    name: 'App管理',
+    icon: 'AndroidOutlined',
+    path: '/app',
+    routes: [
+      {
+        path: '/app/add',
+        name: '添加App',
+        icon: 'smile',
+        component: './app/addApplication',
+      },
+      {
+        path: '/app/update/:id',
+        name: '更新App',
+        icon: 'smile',
+        hideInMenu: true,
+        component: './app/updateApplication',
+      },
+      
+      {
+        path: '/app/query',
+        name: '查询App',
+        icon: 'smile',
+        component: './app/queryApplication',
+      },
+    ],
+  },
+  {
     component: './404',
   },
 ];
