@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 节点添加agent POST /peer/agent/add */
 export async function postPeerAgentAdd(body: API.AddAgentReq, options?: { [key: string]: any }) {

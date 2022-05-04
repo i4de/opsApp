@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 创建一个脚本 POST /v1/m/script/add */
 export async function postV1MScriptAdd(body: API.AddScriptReq, options?: { [key: string]: any }) {

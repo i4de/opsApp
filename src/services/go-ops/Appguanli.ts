@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 创建一个app POST /v1/m/app/create */
 export async function postV1MAppCreate(body: API.AddAppReq, options?: { [key: string]: any }) {

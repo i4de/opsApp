@@ -39,19 +39,20 @@ const errorHandler = (error: { response: Response }): Response => {
 };
 
 
-const authInterceptor = (url: string, options: any) => {
-  // const accessToken = getAccessToken()
-  // if (accessToken) {
-  //   if (options.headers) {
-  //     (options.headers['Access-Token'] = accessToken)
-  //   }
-  // }
+const getAccessToken = () => {
+  return localStorage.getItem('GO-OPS-X-TOKEN');
+}
 
-  // if (token) {
-  //   if (options.headers) {
-  //     (options.headers.Authorization = token)
-  //   }
-  // }
+
+const authInterceptor = (url: string, options: any) => {
+
+  const accessToken = getAccessToken()
+  if (accessToken) {
+    if (options.headers) {
+      (options.headers['GO-OPS-X-TOKEN'] = 'Bearer ' + accessToken)
+    }
+  }
+
 
   return {
     url,
@@ -67,6 +68,15 @@ const request = extend({
   //prefix: 'http://82.157.165.187:30004',
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
+  errorConfig: {
+    adaptor: (resData:any) => {
+      return {
+        ...resData,
+        success: resData.ok,
+        errorMessage: resData.message,
+      };
+    },
+  },
 });
 
 const responseInterceptors = async (response: any, options: any) => {

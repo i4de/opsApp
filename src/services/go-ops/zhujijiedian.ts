@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 添加主机信息 POST /v1/m/vm/add */
 export async function postV1MVmAdd(body: API.AddVmReq, options?: { [key: string]: any }) {

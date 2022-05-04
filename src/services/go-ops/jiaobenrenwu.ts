@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 脚本异步执行 POST /script/async */
 export async function postScriptAsync(body: API.ScriptTaskReq, options?: { [key: string]: any }) {

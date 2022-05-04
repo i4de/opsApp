@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 连接节点 POST /peer/node/connect */
 export async function postPeerNodeConnect(

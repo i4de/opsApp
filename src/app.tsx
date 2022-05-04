@@ -6,6 +6,7 @@ import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { getUserInfo } from './services/go-ops/yonghu';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { RequestConfig } from 'umi';
@@ -23,13 +24,13 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: API.UserInfoRes;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<API.UserInfoRes | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
+      const msg = await getUserInfo();
       return msg.data;
     } catch (error) {
       history.push(loginPath);
@@ -110,14 +111,3 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
-export const request: RequestConfig = {
-  errorConfig: {
-    adaptor: (resData) => {
-      return {
-        ...resData,
-        success: resData.ok,
-        errorMessage: resData.message,
-      };
-    },
-  },
-};
