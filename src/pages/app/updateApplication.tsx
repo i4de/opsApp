@@ -12,8 +12,8 @@ const UpdateApplication: React.FC = () => {
 
   const empty: AppListItem = {
     appid: '',
-    apikey: '',
-    seckey: '',
+    apiKey: '',
+    secKey: '',
     owner: '',
     name: '',
     status: '',
@@ -29,11 +29,11 @@ const UpdateApplication: React.FC = () => {
       }
       const newApp: AppListItem = {
         appid: res.data.appid,
-        apikey: res.data.apikey,
+        apiKey: res.data.apikey,
         name: res.data.name,
         owner: res.data.owner,
         ownerUid: res.data.ownerUid,
-        seckey: res.data.seckey,
+        secKey: res.data.seckey,
         status: res.data.status,
       };
       console.log(newApp);

@@ -1,7 +1,7 @@
 export type AppListItem = {
   appid: string;
-  apikey: string;
-  seckey: string;
+  apiKey: string;
+  secKey: string;
   owner: string;
   name: string;
   status: string;
