@@ -11,8 +11,8 @@ const UpdateApplication: React.FC = () => {
 
   const empty: AppListItem = {
     appid: '',
-    apikey: '',
-    seckey: '',
+    apiKey: '',
+    secKey: '',
     owner: '',
     name: '',
     status: '',
@@ -28,11 +28,11 @@ const UpdateApplication: React.FC = () => {
       }
       const newApp: AppListItem = {
         appid: res.data.appid,
-        apikey: res.data.apikey,
+        apiKey: res.data.apiKey,
         name: res.data.name,
         owner: res.data.owner,
         ownerUid: res.data.ownerUid,
-        seckey: res.data.seckey,
+        secKey: res.data.secKey,
         status: res.data.status == '1' ? '已启用' : '未启用',
       };
       console.log(newApp);
@@ -46,28 +46,52 @@ const UpdateApplication: React.FC = () => {
       {loading && (
         <Card bordered={false}>
           <Row>
-            <Col span={2}>
+            <Col xs={24} md={2}>
               <p>appid:</p>
             </Col>
-            <Col span={22}>{appItem.appid}</Col>
+            <Col xs={24} md={22}>
+              <p style={{ wordBreak:'break-all', display: 'block' }}>{appItem.appid}</p>
+            </Col>
           </Row>
           <Row>
-            <Col span={2}>
+            <Col xs={24} md={2}>
               <p>app名称:</p>
             </Col>
-            <Col span={22}>{appItem.name}</Col>
+            <Col xs={24} md={22}>
+              <p style={{ wordBreak:'break-all', display: 'block' }}>{appItem.name}</p>
+            </Col>
           </Row>
           <Row>
-            <Col span={2}>
+            <Col xs={24} md={2}>
+              <p>apiKey:</p>
+            </Col>
+            <Col xs={24} md={22}>
+              <p style={{ wordBreak:'break-all', display: 'block' }}>{appItem.apiKey}</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={24} md={2}>
+              <p>secKey:</p>
+            </Col>
+            <Col xs={24} md={22}>
+              <p style={{ wordBreak:'break-all', display: 'block' }}>{appItem.secKey}</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={24} md={2}>
               <p>拥有者:</p>
             </Col>
-            <Col span={22}>{appItem.owner}</Col>
+            <Col xs={24} md={22}>
+              <p style={{ wordBreak:'break-all', display: 'block' }}>{appItem.owner}</p>
+            </Col>
           </Row>
           <Row>
-            <Col span={2}>
+            <Col xs={24} md={2}>
               <p>状态:</p>
             </Col>
-            <Col span={22}>{appItem.status}</Col>
+            <Col xs={24} md={22}>
+              <p style={{ wordBreak:'break-all', display: 'block' }}>{appItem.status}</p>
+            </Col>
           </Row>
         </Card>
       )}
