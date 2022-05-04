@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 创建定时任务 POST /v1/m/task/cron/create */
 export async function postV1MTaskCronCreate(

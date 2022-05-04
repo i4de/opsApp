@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 添加巡检项 POST /check/item/add */
 export async function postCheckItemAdd(

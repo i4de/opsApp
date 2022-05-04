@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 用户信息 GET /user/info */
 export async function getUserInfo(options?: { [key: string]: any }) {

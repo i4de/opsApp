@@ -9,6 +9,7 @@ import routes from './routes';
 const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
+  mock:false,
   hash: true,
   antd: {},
   dva: {
@@ -56,7 +57,7 @@ export default defineConfig({
   fastRefresh: {},
   openAPI: [
     {
-      requestLibPath: "import { request } from 'umi'",
+      requestLibPath: "import request from '@/utils/request'",
       schemaPath: join(__dirname, 'oneapi.json'),
       mock: false,
       projectName: 'go-ops',

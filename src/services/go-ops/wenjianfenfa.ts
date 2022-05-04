@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 创建文件分发任务 POST /peer/downloadfile */
 export async function postPeerDownloadfile(

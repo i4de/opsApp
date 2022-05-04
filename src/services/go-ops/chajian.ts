@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 /** 添加插件 POST /v1/m/plugin/create */
 export async function postV1MPluginCreate(
