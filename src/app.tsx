@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
+import { RequestConfig } from 'umi';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -67,10 +68,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       }
     },
     links: [
-      <Link to="/swagger">
-      <BookOutlined />
-      <span>Swagger文档</span>
-    </Link>,
+      <Link to="/umi/plugin/openapi" target="_blank">
+        <LinkOutlined />
+        <span>OpenAPI 文档</span>
+      </Link>,
+      <Link to="/swagger" target="_blank">
+        <BookOutlined />
+        <span>Redoc文档</span>
+      </Link>,
       <Link to="/~docs">
         <BookOutlined />
         <span>API接口文档</span>
@@ -103,4 +108,16 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+export const request: RequestConfig = {
+  errorConfig: {
+    adaptor: (resData) => {
+      return {
+        ...resData,
+        success: resData.ok,
+        errorMessage: resData.message,
+      };
+    },
+  },
 };
