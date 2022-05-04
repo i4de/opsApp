@@ -153,6 +153,13 @@
         hideInMenu: true,
         component: './app/updateApplication',
       },
+      {
+        path: '/app/info/:id',
+        name: 'infoApp',
+        icon: 'smile',
+        hideInMenu: true,
+        component: './app/infoApplication',
+      },
       
       {
         path: '/app/query',

@@ -68,6 +68,14 @@ const QueryApplication: React.FC = () => {
       key: 'option',
       render: (text, record, _, action) => [
         <a
+          key="info"
+          onClick={() => {
+            history.push({ pathname: '/app/info/' + record.appid });
+          }}
+        >
+          查看
+        </a>,
+        <a
           key="update"
           onClick={() => {
             history.push({ pathname: '/app/update/' + record.appid });

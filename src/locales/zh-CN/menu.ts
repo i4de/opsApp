@@ -68,5 +68,6 @@ export default {
   'menu.app':'App管理',
   'menu.app.add':'添加App',
   'menu.app.updateApp':'更新App',
+  'menu.app.infoApp':'App信息',
   'menu.app.query':'查询App',
 };
