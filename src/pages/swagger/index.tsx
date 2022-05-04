@@ -4,7 +4,7 @@ import { RedocStandalone } from 'redoc';
 
 const SwaggerRedoc: React.FC = () => {
     return (
-        <RedocStandalone specUrl="http://192.168.1.9:8199/api.json"/>
+        <RedocStandalone specUrl="/api.json"/>
     )
 }
 

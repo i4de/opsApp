@@ -71,6 +71,18 @@ const ScriptList: React.FC = () => {
       key: 'name',
     },
     {
+      title: '超时时间',
+      dataIndex: 'waitTime',
+      valueType: 'textarea',
+      key: 'waitTime',
+    },
+    {
+      title: '解释器',
+      dataIndex: 'cmd',
+      valueType: 'textarea',
+      key: 'cmd',
+    },
+    {
       title: '描述',
       dataIndex: 'desc',
       valueType: 'textarea',

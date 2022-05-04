@@ -9,9 +9,13 @@ import {
   ProFormTextArea,
   ProFormRadio,
   ProFormDigit,
+  ProFormList,
+  ProFormGroup,
 } from '@ant-design/pro-form';
 
 const onFinish = async (values: Record<string, any>) => {
+
+
   await createScripts(values).then((res) => {
     if (res.code == 0) {
       message.info('添加成功');
@@ -59,6 +63,14 @@ const ScriptAdd: React.FC = () => {
                 value: 'powershell',
                 label: 'powershell',
               },
+              {
+                value: 'python',
+                label: 'python',
+              },
+              {
+                value: 'perl',
+                label: 'perl',
+              },
             ]}
             rules={[
               {
@@ -72,6 +84,7 @@ const ScriptAdd: React.FC = () => {
           <ProFormText label="脚本解释器" name="cmd" placeholder="你可以自定义脚本的解释器" />
 
           <ProFormDigit label="超时时间" name="waitTime" width="sm" />
+
           <ProFormTextArea
             label="脚本内容"
             name="content"
@@ -86,6 +99,23 @@ const ScriptAdd: React.FC = () => {
             ]}
             placeholder="这里填写脚本内容"
           />
+
+          <ProFormList
+            name="args"
+            label="脚本参数信息"
+            deleteIconProps={{
+              tooltipText: '删除该参数',
+            }}
+            creatorButtonProps={{
+              creatorButtonText: '增加参数',
+            }}
+          >
+            <ProFormGroup key="group">
+              <ProFormText name="key" label="参数名称" />
+              <ProFormText name="value" label="默认值" />
+              <ProFormText name="desc" label="参数描述" />
+            </ProFormGroup>
+          </ProFormList>
         </ProForm>
       </Card>
     </PageContainer>

@@ -35,19 +35,19 @@
   },
   {
     name: 'nodes',
-    icon: 'table',
+    icon: 'BranchesOutlined',
     path: '/nodes',
     routes: [
       {
         path: '/nodes/list',
         name: 'node-info',
-        icon: 'smile',
+        icon: 'ClusterOutlined',
         component: './nodes',
       },
       {
         path: '/nodes/vm/list',
         name: 'node-vm',
-        icon: 'smile',
+        icon: 'DesktopOutlined',
         component: './nodes/vm',
       },
       {
@@ -61,19 +61,19 @@
   },
   {
     name: 'resource',
-    icon: 'crown',
+    icon: 'DatabaseOutlined',
     path: '/scripts',
     routes: [
       {
         path: '/scripts/add',
         name: 'addscript',
-        icon: 'smile',
+        icon: 'CodeOutlined',
         component: './scripts/add',
       },
       {
         path: '/scripts/list',
         name: 'scripts',
-        icon: 'smile',
+        icon: 'BugOutlined',
         component: './scripts/index',
       },
       {
@@ -106,7 +106,7 @@
   },
   {
     name: 'tasks',
-    icon: 'table',
+    icon: 'ScheduleOutlined',
     path: '/task',
     routes: [
       {

@@ -3,19 +3,27 @@ import React, { useEffect, useState } from 'react';
 import { updateScripts, queryScripts } from '@/services/scripts';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import { ProForm, ProFormText, ProFormTextArea, ProFormRadio, ProFormDigit } from '@ant-design/pro-form';
+import {
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+  ProFormRadio,
+  ProFormDigit,
+  ProFormList,
+  ProFormGroup
+} from '@ant-design/pro-form';
 import { history } from 'umi';
 import type { ScriptListItem } from './data';
 
-const onFinish = async (scriptId:string, values: Record<string, any>) => {
-    values["scriptId"] = scriptId
-    await updateScripts(values).then(res => {
-        if(res.code == 0) {
-            message.info("更新成功");
-        }else{
-            message.error("更新失败:"+res.message);
-        }
-    })
+const onFinish = async (scriptId: string, values: Record<string, any>) => {
+  values['scriptId'] = scriptId;
+  await updateScripts(values).then((res) => {
+    if (res.code == 0) {
+      message.info('更新成功');
+    } else {
+      message.error('更新失败:' + res.message);
+    }
+  });
 };
 
 const ScriptEdit: React.FC = (props) => {
@@ -31,12 +39,15 @@ const ScriptEdit: React.FC = (props) => {
         history.push({ pathname: '/404' });
         return;
       }
+      let itemScript = res.data.list[0];
+      if (itemScript.args != "") {
+        itemScript.args = JSON.parse(itemScript.args);
+      }
       setScript(() => {
-        return res.data.list[0];
+        return itemScript;
       });
 
       setLoading(true);
-
     });
   }, []);
 
@@ -45,8 +56,8 @@ const ScriptEdit: React.FC = (props) => {
       {loading && (
         <Card bordered={false}>
           <ProForm
-            onFinish={(values)=>{
-                onFinish(script.scriptUid, values);
+            onFinish={(values) => {
+              onFinish(script.scriptUid, values);
             }}
             initialValues={script}
           >
@@ -93,12 +104,7 @@ const ScriptEdit: React.FC = (props) => {
               label="脚本类型"
               name="type"
             />
-             <ProFormText
-              label="脚本解释器"
-              name="cmd"
-              placeholder="你可以自定义脚本的解释器"
-            />
-            
+            <ProFormText label="脚本解释器" name="cmd" placeholder="你可以自定义脚本的解释器" />
 
             <ProFormDigit label="超时时间" name="waitTime" width="sm" />
 
@@ -116,6 +122,23 @@ const ScriptEdit: React.FC = (props) => {
               ]}
               placeholder="这里填写脚本内容"
             />
+
+            <ProFormList
+              name="args"
+              label="脚本参数信息"
+              deleteIconProps={{
+                tooltipText: '删除该参数',
+              }}
+              creatorButtonProps={{
+                creatorButtonText: '增加参数',
+              }}
+            >
+              <ProFormGroup key="group">
+                <ProFormText name="key" label="参数名称" />
+                <ProFormText name="value" label="默认值" />
+                <ProFormText name="desc" label="参数描述" />
+              </ProFormGroup>
+            </ProFormList>
           </ProForm>
         </Card>
       )}

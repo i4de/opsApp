@@ -4,9 +4,11 @@ import request from '@/utils/request';
 export interface scriptsCreateType {
     name: string;
     content: string;
-    args?: Map<string, string>;
+    args?: Map<string, string>[];
     desc: string;
     type: string;
+    waitTime?: number;
+    cmd?: string;
 }
 
 
