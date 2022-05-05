@@ -50,7 +50,7 @@ const ScriptDetails: React.FC = (props) => {
             type="primary"
             onClick={() => {
               history.push({
-                pathname: '/scripts/edit/' + script.scriptUid,
+                pathname: '/resource/scripts/edit/' + script.scriptUid,
               });
             }}
           >

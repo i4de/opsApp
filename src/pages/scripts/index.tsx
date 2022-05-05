@@ -80,6 +80,7 @@ const ScriptList: React.FC = () => {
       title: '解释器',
       dataIndex: 'cmd',
       valueType: 'textarea',
+      search: false,
       key: 'cmd',
     },
     {
@@ -108,7 +109,7 @@ const ScriptList: React.FC = () => {
           key={'info-' + record.scriptUid}
           onClick={() => {
             history.push({
-              pathname: '/scripts/detail/' + record.scriptUid,
+              pathname: '/resource/scripts/detail/' + record.scriptUid,
             });
           }}
         >
@@ -118,7 +119,7 @@ const ScriptList: React.FC = () => {
           key={'edit-' + record.scriptUid}
           onClick={() => {
             history.push({
-              pathname: '/scripts/edit/' + record.scriptUid,
+              pathname: '/resource/scripts/edit/' + record.scriptUid,
             });
           }}
         >
