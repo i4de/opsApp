@@ -145,9 +145,11 @@ function checkStatus(response: { url: any }, options: any) {
 }
 
 const responseInterceptors = async (response: any, options: any) => {
+  console.log("window.location.pathname:", window.location.pathname , "status: ", response.status)
   if (response.status === 403) {
     return checkStatus(response, options);
   } else if (response.status === 401 && window.location.pathname !== '/user/login') {
+    console.log("401-------->");
     return redirectLoginPage();
   }
   response
