@@ -6,6 +6,7 @@ import { notification } from 'antd';
 import { extend } from 'umi-request';
 import { history } from 'umi';
 import { stringify } from 'querystring';
+import { postUserRefresh_token } from '@/services/go-ops/yonghu';
 
 /**
  * 异常处理程序
@@ -78,32 +79,82 @@ const request = extend({
   },
 });
 
-const responseInterceptors = async (response: any) => {
-  console.log("---->");
+// 重定向到登录页面
+const redirectLoginPage = () => {
+  const queryString = stringify({
+    redirect: window.location.href,
+  });
+  window.location.href = `/user/login?${queryString}`;
+};
+
+let isRefreshing = false; // 是否正在刷新
+const subscribers: any[] = []; // 重试队列，每一项将是一个待执行的函数形式
+
+const addSubscriber = (listener: (newToken: string) => void) => subscribers.push(listener);
+
+// 执行被缓存等待的接口事件
+const notifySubscriber = (newToken = '') => {
+  subscribers.forEach((callback) => callback(newToken));
+  subscribers.length = 0;
+};
+
+// 刷新 token 请求
+const refreshTokenRequst = async () => {
+  const refresh_token = getAccessToken();
+  if (!refresh_token) {
+    return redirectLoginPage();
+  }
+
+  try {
+    const res = await postUserRefresh_token({});
+    if (res.data?.token) {
+      localStorage.setItem('GO-OPS-X-TOKEN', res.data.token);
+      notifySubscriber(res.data.token);
+    } else {
+      return redirectLoginPage();
+    }
+  } catch (e) {
+    console.error('请求刷新 token 失败');
+  }
+  isRefreshing = false;
+};
+
+// 判断如何响应
+function checkStatus(response: { url: any }, options: any) {
+  const { url } = response;
+  if (!isRefreshing) {
+    isRefreshing = true;
+    refreshTokenRequst();
+  }
+
+  // 正在刷新 token，返回一个未执行 resolve 的 promise
+  return new Promise((resolve) => {
+    // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
+    addSubscriber((newToken: any) => {
+      const newOptions = {
+        ...options,
+        prefix: '',
+        params: {},
+        headers: {
+          'GO-OPS-X-TOKEN': 'Bearer ' + newToken,
+        },
+      };
+      resolve(request(url, newOptions));
+    });
+  });
+}
+
+const responseInterceptors = async (response: any, options: any) => {
+  if (response.status === 401) {
+    return checkStatus(response, options);
+  } else if (response.status === 403 && window.location.pathname !== '/user/login') {
+    return redirectLoginPage();
+  }
   response
     .clone()
     .text()
     .then((v) => {
       const data = JSON.parse(v);
-      console.log("response -->", data);
-      if (data?.code == 401) {
-        console.log("40111111111->", data)
-        notification.error({
-          message: `请求错误, 错误码:401`,
-          description: data?.data?.msg,
-        });
-        const { query = {}, search, pathname } = history.location;
-        const { redirect } = query;
-        // Note: There may be security issues, please note
-        if (window.location.pathname !== '/user/login' && !redirect) {
-          history.replace({
-            pathname: '/user/login',
-            search: stringify({
-              redirect: pathname + search,
-            }),
-          });
-        }
-      }
       if (data?.data?.msg !== 'OK' && data?.data?.msg) {
         notification.error({
           message: `请求错误, 错误码:500`,
