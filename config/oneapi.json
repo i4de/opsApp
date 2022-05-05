@@ -22,7 +22,20 @@
             "format": "string",
             "properties": {},
             "type": "string"
-          }
+          },
+          "waitTime": {
+            "description": "脚本超时时间",
+            "format": "int",
+            "properties": {},
+            "type": "integer"
+          },
+          "cmd": {
+            "description": "脚本解释器",
+            "format": "string",
+            "properties": {},
+            "type": "string"
+          },
+          "weight": { "format": "float64", "properties": {}, "type": "number" }
         },
         "type": "object"
       },
@@ -53,7 +66,20 @@
             "format": "string",
             "properties": {},
             "type": "string"
-          }
+          },
+          "waitTime": {
+            "description": "脚本超时时间",
+            "format": "int",
+            "properties": {},
+            "type": "integer"
+          },
+          "cmd": {
+            "description": "脚本解释器",
+            "format": "string",
+            "properties": {},
+            "type": "string"
+          },
+          "weight": { "format": "float64", "properties": {}, "type": "number" }
         },
         "type": "object"
       },
@@ -77,6 +103,12 @@
       },
       "go-ops.api.v1.QueryCheckItemReq": {
         "properties": {
+          "checkItemId": {
+            "description": "检查项id",
+            "format": "string",
+            "properties": {},
+            "type": "string"
+          },
           "name": {
             "description": "检查项名称",
             "format": "string",
@@ -160,7 +192,20 @@
             "format": "string",
             "properties": {},
             "type": "string"
-          }
+          },
+          "waitTime": {
+            "description": "脚本超时时间",
+            "format": "int",
+            "properties": {},
+            "type": "integer"
+          },
+          "cmd": {
+            "description": "脚本解释器",
+            "format": "string",
+            "properties": {},
+            "type": "string"
+          },
+          "weight": { "format": "float64", "properties": {}, "type": "number" }
         },
         "type": "object"
       },
@@ -2621,7 +2666,20 @@
                           "format": "string",
                           "properties": {},
                           "type": "string"
-                        }
+                        },
+                        "waitTime": {
+                          "description": "脚本超时时间",
+                          "format": "int",
+                          "properties": {},
+                          "type": "integer"
+                        },
+                        "cmd": {
+                          "description": "脚本解释器",
+                          "format": "string",
+                          "properties": {},
+                          "type": "string"
+                        },
+                        "weight": { "format": "float64", "properties": {}, "type": "number" }
                       },
                       "type": "object"
                     }
@@ -2821,7 +2879,20 @@
                           "format": "string",
                           "properties": {},
                           "type": "string"
-                        }
+                        },
+                        "waitTime": {
+                          "description": "脚本超时时间",
+                          "format": "int",
+                          "properties": {},
+                          "type": "integer"
+                        },
+                        "cmd": {
+                          "description": "脚本解释器",
+                          "format": "string",
+                          "properties": {},
+                          "type": "string"
+                        },
+                        "weight": { "format": "float64", "properties": {}, "type": "number" }
                       },
                       "type": "object"
                     }

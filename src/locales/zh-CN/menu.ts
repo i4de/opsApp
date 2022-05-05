@@ -51,6 +51,8 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.resource': '资源管理',
   'menu.resource.checkitem':'巡检项',
+  'menu.resource.checkitem-add':'添加巡检项',
+  'menu.resource.checkitem-edit':'编辑巡检项',
   'menu.resource.checktpl':'巡检模板',
   'menu.resource.scripts':'脚本列表',
   'menu.resource.addscript':'添加脚本',
