@@ -9,6 +9,7 @@ import routes from './routes';
 const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
+  logo: '/logo_github_icon_143196.png',
   mock:false,
   hash: true,
   antd: {},
