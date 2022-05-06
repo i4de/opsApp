@@ -2,10 +2,10 @@ import request from '@/utils/request';
 
 export interface taskPresetQueryType {
     uuid: string;
-    name: string;
-    creater: string;
-    pageNum: number;
-    pageSize: number;
+    name?: string;
+    creater?: string;
+    pageNum?: number;
+    pageSize?: number;
 }
 
 
@@ -51,7 +51,7 @@ export async function taskPresetUpdate(params: taskPresetItemType) {
 }
 
 export async function taskPresetDelete(params: taskPresetDeleteType) {
-    return request('/v1/m/task/preset/update', {
+    return request('/v1/m/task/preset/deleted', {
         method: 'POST',
         data: params,
     });

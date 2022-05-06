@@ -21,7 +21,6 @@ const handleRemove = async (list: AppListItem[]) => {
 };
 
 const QueryApplication: React.FC = () => {
-  // const [setSelectedRows] = useState<AppListItem[]>([]);
 
   const valueEnum = {
     0: 'close',
