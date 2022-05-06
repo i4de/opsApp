@@ -62,39 +62,53 @@
   {
     name: 'resource',
     icon: 'DatabaseOutlined',
-    path: '/scripts',
+    path: '/resource',
     routes: [
       {
-        path: '/scripts/add',
+        path: '/resource/scripts/add',
         name: 'addscript',
         icon: 'CodeOutlined',
         component: './scripts/add',
       },
       {
-        path: '/scripts/list',
+        path: '/resource/scripts/list',
         name: 'scripts',
         icon: 'BugOutlined',
         component: './scripts/index',
       },
       {
-        path: '/scripts/detail/:id',
+        path: '/resource/scripts/detail/:id',
         name: 'script-info',
         icon: 'smile',
         hideInMenu: true,
         component: './scripts/detail',
       },
       {
-        path: '/scripts/edit/:id',
+        path: '/resource/scripts/edit/:id',
         name: 'script-edit',
         icon: 'smile',
         hideInMenu: true,
         component: './scripts/edit',
       },
       {
-        path: '/check/item',
+        path: '/resource/check/item',
         name: 'checkitem',
         icon: 'smile',
         component: './check/checkItem',
+      },
+      {
+        path: '/resource/check/item/add',
+        name: 'checkitem-add',
+        icon: 'smile',
+        component: './check/additem',
+        hideInMenu: true,
+      },
+      {
+        path: '/resource/check/edit/:id',
+        name: 'checkitem-edit',
+        icon: 'smile',
+        component: './check/edititem',
+        hideInMenu: true,
       },
       {
         path: '/check/tpl',
@@ -160,7 +174,7 @@
         hideInMenu: true,
         component: './app/infoApplication',
       },
-      
+
       {
         path: '/app/query',
         name: 'query',

@@ -10,7 +10,16 @@ export async function postCheckItemAdd(
   return request<{
     code?: number;
     message?: string;
-    data?: { checkItemId?: string; name?: string; desc?: string; type?: string; content?: string };
+    data?: {
+      checkItemId?: string;
+      name?: string;
+      desc?: string;
+      type?: string;
+      content?: string;
+      waitTime?: number;
+      cmd?: string;
+      weight?: number;
+    };
   }>('/check/item/add', {
     method: 'POST',
     headers: {
@@ -72,7 +81,16 @@ export async function postCheckItemUpdate(
   return request<{
     code?: number;
     message?: string;
-    data?: { checkItemId?: string; name?: string; desc?: string; type?: string; content?: string };
+    data?: {
+      checkItemId?: string;
+      name?: string;
+      desc?: string;
+      type?: string;
+      content?: string;
+      waitTime?: number;
+      cmd?: string;
+      weight?: number;
+    };
   }>('/check/item/update', {
     method: 'POST',
     headers: {

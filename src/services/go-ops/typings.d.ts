@@ -8,6 +8,11 @@ declare namespace API {
     type?: string;
     /** 内容 */
     content?: string;
+    /** 脚本超时时间 */
+    waitTime?: number;
+    /** 脚本解释器 */
+    cmd?: string;
+    weight?: number;
   };
 
   type CheckItemRes = {
@@ -21,6 +26,11 @@ declare namespace API {
     type?: string;
     /** 内容 */
     content?: string;
+    /** 脚本超时时间 */
+    waitTime?: number;
+    /** 脚本解释器 */
+    cmd?: string;
+    weight?: number;
   };
 
   type interface = {};
@@ -33,6 +43,8 @@ declare namespace API {
   type DeleteRes = {};
 
   type QueryCheckItemReq = {
+    /** 检查项id */
+    checkItemId?: string;
     /** 检查项名称 */
     name?: string;
     /** 类型 */
@@ -66,6 +78,11 @@ declare namespace API {
     type?: string;
     /** 内容 */
     content?: string;
+    /** 脚本超时时间 */
+    waitTime?: number;
+    /** 脚本解释器 */
+    cmd?: string;
+    weight?: number;
   };
 
   type AddAgentReq = {

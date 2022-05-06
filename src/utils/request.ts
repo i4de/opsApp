@@ -82,7 +82,7 @@ const request = extend({
 // 重定向到登录页面
 const redirectLoginPage = () => {
   const queryString = stringify({
-    redirect: window.location.href,
+    redirect: '',
   });
   window.location.href = `/user/login?${queryString}`;
 };
@@ -107,7 +107,7 @@ const refreshTokenRequst = async () => {
 
   try {
     const res = await postUserRefresh_token({});
-    if (res.data?.token) {
+    if (res?.data?.token) {
       localStorage.setItem('GO-OPS-X-TOKEN', res.data.token);
       notifySubscriber(res.data.token);
     } else {
@@ -145,9 +145,11 @@ function checkStatus(response: { url: any }, options: any) {
 }
 
 const responseInterceptors = async (response: any, options: any) => {
-  if (response.status === 401) {
+  console.log("window.location.pathname:", window.location.pathname , "status: ", response.status)
+  if (response.status === 403) {
     return checkStatus(response, options);
-  } else if (response.status === 403 && window.location.pathname !== '/user/login') {
+  } else if (response.status === 401 && window.location.pathname !== '/user/login') {
+    console.log("401-------->");
     return redirectLoginPage();
   }
   response

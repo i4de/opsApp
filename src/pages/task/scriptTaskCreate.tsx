@@ -445,6 +445,11 @@ const ScriptTaskCreate: React.FC = () => {
     if (TaskStore.step != 1) {
       return <></>;
     }
+
+    if (TaskStore.type == '') {
+      TaskStore.type = 'script';
+    }
+
     if (TaskStore.type == 'script') {
       return <ScriptAdd />;
     }
