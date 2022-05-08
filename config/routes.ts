@@ -142,6 +142,20 @@
         component: './task/taskPreset',
       },
       {
+        path: '/task/presetinfo/:id',
+        name: 'task-preset-info',
+        icon: 'smile',
+        hideInMenu: true,
+        component: './task/taskPresetInfo',
+      },
+      {
+        path: '/task/presetupdate/:id',
+        name: 'task-preset-update',
+        icon: 'smile',
+        hideInMenu: true,
+        component: './task/taskPresetUpdate',
+      },
+      {
         path: '/task/cron',
         name: 'task-cron',
         icon: 'smile',
