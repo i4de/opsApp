@@ -161,6 +161,13 @@
         icon: 'smile',
         component: './task/taskCron',
       },
+      {
+        path: '/task/info/:id',
+        name: 'task-record-info',
+        icon: 'smile',
+        hideInMenu: true,
+        component: './task/taskinfo',
+      },
     ],
   },
   {

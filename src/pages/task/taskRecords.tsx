@@ -3,6 +3,7 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { taskRecordItemType, taskRecordQueryType, taskRecordQuery } from '@/services/task';
 import ProTable from '@ant-design/pro-table';
+import { history } from 'umi';
 
 const queryTaskRecord = async (params: {
   pageSize: number;
@@ -83,7 +84,11 @@ const TaskRecords: React.FC = () => {
       valueType: 'option',
       key: 'option',
       search: false,
-      render: (_, record) => [<a key={'info-' + record.taskId}>查看</a>],
+      render: (_, record) => [<a key={'info-' + record.taskId} onClick={()=> {
+        history.push({
+          pathname: '/task/info/' + record.taskId,
+        });
+      }}>查看</a>],
     },
   ];
 
