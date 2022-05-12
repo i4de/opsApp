@@ -65,6 +65,7 @@ export default {
   'menu.tasks.task-preset-info':'预设任务信息',
   'menu.tasks.task-preset-update':'编辑预设任务信息',
   'menu.tasks.task-cron':'定时任务',
+  'menu.tasks.task-record-info':'任务详情',
   'menu.nodes':'节点管理',
   'menu.nodes.node-info':'节点信息',
   'menu.nodes.node-vm':'主机节点',
