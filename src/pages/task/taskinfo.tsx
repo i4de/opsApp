@@ -60,7 +60,11 @@ const TaskInfo: React.FC = (props) => {
       dataIndex: 'code',
       key: 'code',
       render: (_, record) => {
-        return <Tag color="green" key={record.taskId + '-code'}>{record.content.resCmd.code}</Tag>;
+        return (
+          <Tag color="green" key={record.taskId + '-code'}>
+            {record.content.resCmd.code}
+          </Tag>
+        );
       },
     },
     {
@@ -102,7 +106,12 @@ const TaskInfo: React.FC = (props) => {
         </Descriptions>
 
         <Descriptions title="执行记录"></Descriptions>
-        <Table dataSource={subTaskList} columns={scriptItemColunms} loading={loading} key="taskId"></Table>
+        <Table
+          dataSource={subTaskList}
+          columns={scriptItemColunms}
+          loading={loading}
+          key="taskId"
+        ></Table>
       </Card>
     </>
   );
