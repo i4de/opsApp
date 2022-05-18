@@ -20,10 +20,13 @@ import ProForm, {
   ProFormInstance,
   ProFormText,
   StepsForm,
+  ProFormList,
+  ProFormFieldSet,
+  ProFormGroup,
 } from '@ant-design/pro-form';
 
 import ProCard from '@ant-design/pro-card';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import { ProColumns, ActionType, EditableProTable } from '@ant-design/pro-table';
 import { vmItemType, vmQuery, vmQueryType } from '@/services/vm';
 import ProTable from '@ant-design/pro-table';
 import TaskStore from './store';
@@ -87,7 +90,78 @@ const TaskAdd: React.FC = () => {
   ));
 };
 
+const MoreScriptInfo: React.FC = () => {
+  let params: String[] = [];
+  return (
+    <div>
+      <ProFormText name="path" label="脚本工作路径" />
+      <ProFormText name="cmd" label="解释器" />
+      <ProForm.Group>
+        <ProFormText name="user" width="md" label="脚本执行的用户" />
+        <ProFormSelect
+          width="md"
+          options={[
+            {
+              value: 0,
+              label: '命令行执行',
+            },
+            {
+              value: 1,
+              label: '内容执行',
+            },
+            {
+              value: 2,
+              label: '脚本名执行，脚本存在本机',
+            },
+            {
+              value: 3,
+              label: '从服务器上下载脚本执行',
+            },
+          ]}
+          name="execway"
+          label="脚本执行方式"
+        />
+      </ProForm.Group>
+      <ProForm.Group>
+        <ProFormDigit name="time" width="md" label="脚本超时时间" fieldProps={{ precision: 0 }} />
+        <ProFormText name="ext" width="md" label="文件拓展名" />
+      </ProForm.Group>
+      <ProFormList
+        name="args"
+        label="脚本参数"
+        initialValue={[]}
+        creatorButtonProps={{
+          position: 'top',
+          creatorButtonText: '新增一条',
+        }}
+        creatorRecord={{
+          param: '',
+        }}
+      >
+        <ProFormText name="param" width="xl" />
+      </ProFormList>
+      <ProFormList
+        name="env"
+        label="脚本参数信息"
+        deleteIconProps={{
+          tooltipText: '删除该参数',
+        }}
+        creatorButtonProps={{
+          creatorButtonText: '增加参数',
+        }}
+      >
+        <ProFormGroup key="group">
+          <ProFormText name="key" label="参数名称" />
+          <ProFormText name="value" label="默认值" />
+          <ProFormText name="desc" label="参数描述" />
+        </ProFormGroup>
+      </ProFormList>
+    </div>
+  );
+};
+
 const ScriptAdd: React.FC = () => {
+  const [showType, setshowType] = useState<boolean>(false);
   return (
     <Card bordered={false} style={{ marginTop: '20px' }}>
       <ProForm
@@ -106,7 +180,6 @@ const ScriptAdd: React.FC = () => {
           },
           render: (props, doms) => {
             console.log(props);
-
             return [
               <Button
                 onClick={() => {
@@ -127,6 +200,14 @@ const ScriptAdd: React.FC = () => {
           },
         }}
         onFinish={(values) => {
+          let tempargs =
+            values['args'].length == 0 ? [] : values['args'].map((item) => item['param']);
+          values['args'] = tempargs;
+          
+          let tempenv = {};
+          values['env'].forEach((e) => (tempenv[e['key']] = e['value']));
+          values['env'] = tempenv;
+
           TaskStore.script = values;
           TaskStore.next();
         }}
@@ -140,6 +221,14 @@ const ScriptAdd: React.FC = () => {
             {
               value: 'powershell',
               label: 'powershell',
+            },
+            {
+              value: 'python',
+              label: 'python',
+            },
+            {
+              value: 'perl',
+              label: 'perl',
             },
           ]}
           rules={[
@@ -165,6 +254,10 @@ const ScriptAdd: React.FC = () => {
           ]}
           placeholder="这里填写脚本内容"
         />
+        {showType && <MoreScriptInfo />}
+        <div style={{ marginBottom: '20px' }}>
+          <a onClick={() => setshowType(!showType)}> {showType ? '收起' : '更多'}</a>
+        </div>
       </ProForm>
     </Card>
   );
