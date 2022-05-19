@@ -142,7 +142,7 @@ const MoreScriptInfo: React.FC = () => {
       </ProFormList>
       <ProFormList
         name="env"
-        label="脚本参数信息"
+        label="环境变量"
         deleteIconProps={{
           tooltipText: '删除该参数',
         }}
@@ -182,6 +182,7 @@ const ScriptAdd: React.FC = () => {
             console.log(props);
             return [
               <Button
+                key="before"
                 onClick={() => {
                   TaskStore.pre();
                 }}
@@ -189,6 +190,7 @@ const ScriptAdd: React.FC = () => {
                 上一步
               </Button>,
               <Button
+                key="after"
                 type="primary"
                 onClick={() => {
                   props.form?.submit?.();
@@ -199,14 +201,17 @@ const ScriptAdd: React.FC = () => {
             ];
           },
         }}
-        onFinish={(values) => {
-          let tempargs =
-            values['args'].length == 0 ? [] : values['args'].map((item) => item['param']);
-          values['args'] = tempargs;
-          
-          let tempenv = {};
-          values['env'].forEach((e) => (tempenv[e['key']] = e['value']));
-          values['env'] = tempenv;
+        onFinish={(values: Map<string, any>) => {
+          if (values.hasOwnProperty('args')) {
+            let tempargs =
+              values['args'].length == 0 ? [] : values['args'].map((item) => item['param']);
+            values['args'] = tempargs;
+          }
+          if (values.hasOwnProperty('env')) {
+            let tempenv = {};
+            values['env'].forEach((e) => (tempenv[e['key']] = e['value']));
+            values['env'] = tempenv;
+          }
 
           TaskStore.script = values;
           TaskStore.next();
@@ -355,6 +360,7 @@ const SelectPeer: React.FC = () => {
 
             return [
               <Button
+                key="before"
                 onClick={() => {
                   TaskStore.pre();
                 }}
@@ -362,6 +368,7 @@ const SelectPeer: React.FC = () => {
                 上一步
               </Button>,
               <Button
+                key="after"
                 type="primary"
                 onClick={() => {
                   props.form?.submit?.();
@@ -495,7 +502,7 @@ const ScriptTaskResult: React.FC = () => {
       <Result
         status="success"
         title="你已经成功创建任务!"
-        subTitle="任务id是:."
+        subTitle={'任务id是: ' + TaskStore.res.data['taskid']}
         extra={[
           <Button
             type="primary"
